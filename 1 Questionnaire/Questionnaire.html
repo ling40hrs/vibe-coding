@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Social Self-Discovery Questionnaire</title>
+    <style>
+        /* Modern Dark Mode Styling */
+        :root {
+            --bg-color: #1a1a1a;
+            --text-color: #e0e0e0;
+            --primary-color: #6a0dad; /* Dark Purple */
+            --secondary-color: #bb86fc; /* Lighter Purple */
+            --input-bg: #2a2a2a;
+            --input-border: #444;
+            --focus-border: #bb86fc;
+            --button-bg: #6200ee;
+            --button-hover-bg: #3700b3;
+            --card-bg: #222222;
+            --heading-color: #bb86fc;
+            --link-color: #03dac6; /* Teal accent */
+            --border-radius: 8px;
+            --box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            --transition-speed: 0.3s ease;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+
+        .container {
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            max-width: 900px;
+            width: 100%;
+            margin: 20px auto;
+        }
+
+        h1, h2, h3 {
+            color: var(--heading-color);
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--input-border);
+            padding-bottom: 10px;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5em;
+        }
+
+        h2 {
+            font-size: 1.8em;
+            margin-top: 30px;
+        }
+
+        h3 {
+            font-size: 1.4em;
+            margin-top: 25px;
+            color: var(--secondary-color);
+        }
+
+        .question-group {
+            margin-bottom: 20px;
+        }
+
+        .question-group p {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: var(--text-color);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            cursor: pointer;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        textarea {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 15px;
+            background-color: var(--input-bg);
+            color: var(--text-color);
+            border: 1px solid var(--input-border);
+            border-radius: 4px;
+            font-size: 1em;
+            transition: border-color var(--transition-speed);
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        textarea:focus {
+            border-color: var(--focus-border);
+            outline: none;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        /* Radio button styling for scale questions */
+        .scale-radio-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .scale-radio-group label {
+            display: inline-flex;
+            align-items: center;
+            background-color: var(--input-bg);
+            padding: 8px 12px;
+            border-radius: 4px;
+            border: 1px solid var(--input-border);
+            transition: background-color var(--transition-speed), border-color var(--transition-speed);
+        }
+
+        .scale-radio-group input[type="radio"] {
+            margin-right: 5px;
+            appearance: none; /* Hide default radio button */
+            width: 16px;
+            height: 16px;
+            border: 2px solid var(--secondary-color);
+            border-radius: 50%;
+            display: inline-block;
+            position: relative;
+            vertical-align: middle;
+            cursor: pointer;
+            transition: background-color var(--transition-speed), border-color var(--transition-speed);
+        }
+
+        .scale-radio-group input[type="radio"]:checked {
+            background-color: var(--secondary-color);
+            border-color: var(--secondary-color);
+        }
+
+        .scale-radio-group input[type="radio"]:checked::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background-color: var(--input-bg);
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .scale-radio-group input[type="radio"]:focus + span {
+            outline: 2px solid var(--focus-border);
+            outline-offset: 2px;
+        }
+
+        .button-group {
+            text-align: center;
+            margin-top: 40px;
+            border-top: 1px solid var(--input-border);
+            padding-top: 30px;
+        }
+
+        .button-group button {
+            background-color: var(--button-bg);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 1.1em;
+            margin: 0 10px;
+            transition: background-color var(--transition-speed), transform var(--transition-speed);
+        }
+
+        .button-group button:hover {
+            background-color: var(--button-hover-bg);
+            transform: translateY(-2px);
+        }
+
+        .button-group button:active {
+            transform: translateY(0);
+        }
+
+        .button-group button.clear {
+            background-color: #d32f2f; /* Red for clear */
+        }
+
+        .button-group button.clear:hover {
+            background-color: #b71c1c;
+        }
+
+        .button-group button.export {
+            background-color: #03dac6; /* Teal for export */
+            color: #1a1a1a;
+        }
+
+        .button-group button.export:hover {
+            background-color: #018786;
+        }
+
+        .message {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 1em;
+            color: var(--link-color);
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            h2 {
+                font-size: 1.6em;
+            }
+
+            h3 {
+                font-size: 1.2em;
+            }
+
+            .button-group button {
+                width: 100%;
+                margin: 10px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>The Social Self-Discovery Questionnaire</h1>
+
+        <form id="questionnaireForm">
+            <p class="intro-text">This questionnaire is designed to help you gain insights into your social behaviors, thoughts, and relationship patterns. Your responses will be saved locally in your browser so you can continue at any time. There are no right or wrong answers, just honest reflections.</p>
+
+            <!-- Part 1: Social Scenarios & Reactions -->
+            <h2>Part 1: Social Scenarios & Reactions</h2>
+            <p>This section focuses on your typical behaviors in various social environments.</p>
+
+            <section class="section-A">
+                <h3>Section A: Initial Interactions & First Impressions</h3>
+                <div class="question-group">
+                    <label for="q1">1. When you first enter a social gathering where you know few people, what is your immediate course of action?</label>
+                    <textarea id="q1" name="q1"></textarea>
+                </div>
+
+                <div class="question-group">
+                    <p class="question-text">2. On a scale of 1 (very uncomfortable) to 10 (very comfortable), how at ease are you with making small talk with strangers?</p>
+                    <div class="scale-radio-group" data-question-id="q2">
+                        <label><input type="radio" name="q2" value="1"> <span>1</span></label>
+                        <label><input type="radio" name="q2" value="2"> <span>2</span></label>
+                        <label><input type="radio" name="q2" value="3"> <span>3</span></label>
+                        <label><input type="radio" name="q2" value="4"> <span>4</span></label>
+                        <label><input type="radio" name="q2" value="5"> <span>5</span></label>
+                        <label><input type="radio" name="q2" value="6"> <span>6</span></label>
+                        <label><input type="radio" name="q2" value="7"> <span>7</span></label>
+                        <label><input type="radio" name="q2" value="8"> <span>8</span></label>
+                        <label><input type="radio" name="q2" value="9"> <span>9</span></label>
+                        <label><input type="radio" name="q2" value="10"> <span>10</span></label>
+                    </div>
+                </div>
+
+                <div class="question-group">
+                    <label for="q3">3. How often do you initiate a conversation with someone new?</label>
+                    <input type="text" id="q3" name="q3">
+                </div>
+
+                <div class="question-group">
+                    <label for="q4">4. Are you more likely to ask questions or talk about yourself when meeting someone for the first time?</label>
+                    <input type="text" id="q4" name="q4">
+                </div>
+
+                <div class="question-group">
+                    <label for="q5">5. How conscious are you of the non-verbal signals (e.g., body language, tone of voice) you project during a first encounter?</label>
+                    <textarea id="q5" name="q5"></textarea>
+                </div>
+
+                <div class="question-group">
+                    <label for="q6">6. Describe your typical approach to joining a conversation that is already in progress.</label>
+                    <textarea id="q6" name="q6"></textarea>
+                </div>
+
+                <div class="question-group">
+                    <label for="q7">7. How do you typically remember new people's names?</label>
+                    <input type="text" id="q7" name="q7">
+                </div>
+
+                <div class="question-group">
+                    <label for="q8">8. When ending a conversation, what is your usual strategy?</label>
+                    <textarea id="q8" name="q8"></textarea>
+                </div>
+            </section>
+
+            <section class="section-B">
+                <h3>Section B: Group Dynamics</h3>
+                <div class="question-group">
+                    <label for="q9">9. In a group discussion, do you tend to be a listener, a leader, a mediator, or a frequent contributor?</label>
+                    <input type="text" id="q9" name="q9">
+                </div>
+
+                <div class="question-group">
+                    <label for="q10">10. How do you react when you are the center of attention in a group?</label>
+                    <textarea id="q10" name="q10"></textarea>
+                </div>
+
+                <div class="question-group">
+                    <label for="q11">11. When a decision needs to be made in a group, what role do you usually play?</label>
+                    <input type="text" id="q11" name="q11">
+                </div>
+
+                <div class="question-group">
+                    <label for="q12">12. How do you ensure quieter members of a group have a chance to speak?</label>
+                    <textarea id="q12" name="q12"></textarea>
+                </div>
+
+                <div class="question-group">
+                    <label for="q13">13. Describe your feelings about large parties versus small, intimate gatherings.</label>
+                    <textarea id="q13" name="q13"></textarea>
+                </div>
+
+                <div class="question-group">
+                    <label for="q14">14. What is your response if you are interrupted while speaking?</label>
+                    <textarea id="q14" name="q14"></textarea>
+                </div>
+
+                <div class="question-group">
+                    <label for="q15">15. How do you handle a situation where one person is dominating the conversation?</label>
+                    <textarea id="q15" name="q15"></textarea>
+                </div>
+
+                <div class="question-group">
+                    <label for="q16">16. Can you recall a time you felt particularly included in a group. What made you feel that way?</label>
+                    <textarea id="q16" name="q16"></textarea>
+                </div>
+            </section>
+
+            <section class="section-C">
+                <h3>Section C: Conflict and Disagreement</h3>
+                <div class="question-group">
+                    <label for="q17">17. How do you typically react when a friend does something that upsets you?</label>
+                    <textarea id="q17" name="q17"></textarea>
+                </div>
+
+                <div class="question-group">
+                    <p class="question-text">18. On a scale of 1 (avoid at all costs) to 10 (confront directly), what is your approach to conflict?</p>
+                    <div class="scale-radio-group" data-question-id="q18">
+                        <label><input type="radio" name="q18" value="1"> <span>1</span></label>
+                        <label><input type="radio" name="q18" value="2"> <span>2</span></label>
+                        <label><input type="radio" name="q18" value="3"> <span>3</span></label>
+                        <label><input type="radio" name="q18" value="4"> <span>4</span></label>
+                        <label><input type="radio" name="q18" value="5"> <span>5</span></label>
+                        <label><input type="radio" name="q18" value="6"> <span>6</span></label>
+                        <label><input type="radio" name="q18" value="7"> <span>7</span></label>
+                        <label><input type="radio" name="q18" value="8"> <span>8</span></label>
+                        <label><input type="radio" name="q18" value="9"> <span>9</span></label>
+                        <label><input type="radio" name="q18" value="10"> <span>10</span></label>
+                    </div>
+                </div>
+
+                <div class="question-group">
+                    <label for="q19">19. During a disagreement, is your primary goal to win the argument, to be understood, or to find a compromise?</label>
+                    <input type="text" id="q19" name="q19">
+                </div>
+
+                <div class="question-group">
+                    <label for="q20">20. Are you able to see the other person’s point of view during a heated discussion?</label>
+                    <input type="text" id="q20" name="q20">
+                </div>
+
+                <div class="question-group">
+                    <label for="q21">21. How do you feel physically and emotionally during a tense confrontation?</label>
+                    <textarea id="q21" name="q21"></textarea>
+                </div>
+
+                <div class="question-group">
+                    <label for="q22">22. After a conflict, are you more likely to be the one who initiates reconciliation?</label>
+                    <input type="text" id="q22" name="q22">
+                </div>
+
+                <div class="question-group">
+                    <label for="q23">23. What is your approach to giving criticism or difficult feedback to a peer?</label>
+                    <textarea id="q23" name="q23"></textarea>
+                </div>
+
+                <div class="question-group">
+                    <label for="q24">24. How do you react when you receive criticism from others?</label>
+                    <textarea id="q24" name="q24"></textarea>
+                </div>
+            </section>
+
+            <section class="section-D">
+                <h3>Section D: Expressing Needs & Setting Boundaries</h3>
+                <div class="question-group">
+                    <label for="q25">25. How easy or difficult is it for you to say "no" when asked for a favor?</label>
+                    <input type="text" id="q25" name="q25">
+                </div>
+
+                <div class="question-group">
+                    <label for="q26">26. Describe a recent situation where you had to set a personal boundary.</label>
+                    <textarea id="q26" name="q26"></textarea>
+                </div>
+
+                <div class="question-group">
+                    <label for="q27">27. How do you communicate to others that you need space or alone time?</label>
+                    <textarea id="q27" name="q27"></textarea>
+                </div>
+
+                <div class="question-group">
+                    <label for="q28">28. Do you ever find yourself over-committing to social events? If so, what do you believe are the underlying reasons?</label>
+                    <textarea id="q28" name="q28"></textarea>
+                </div>
+
+                <div class="question-group">
+                    <label for="q29">29. When someone cancels plans with you, what is your initial emotional response?</label>
+                    <textarea id="q29" name="q29"></textarea>
+                </div>
+
+                <div class="question-group">
+                    <label for="q30">30. How do you react when someone else communicates a boundary to you?</label>
+                    <textarea id="q30" name="q30"></textarea>
+                </div>
+
+                <div class="question-group">
+                    <label for="q31">31. In what areas of your life do you find it easiest to be assertive? Where is it hardest?</label>
+                    <textarea id="q31" name="q31"></textarea>
+                </div>
+
+                <div class="question-group">
+                    <label for="q32">32. Do you believe that expressing your needs is a sign of strength or weakness?</label>
+                    <input type="text" id="q32" name="q32">
+                </div>
+            </section>
+
+            <!-- Part 2: Your Internal Landscape -->
+            <h2>Part 2: Your Internal Landscape</h2>
+            <p>This section explores your thoughts, feelings, and motivations concerning your social life.</p>
+
+            <section class="section-A">
+                <h3>Section A: Social Energy & Motivation (Extroversion/Introversion)</h3>
+                <div class="question-group">
+                    <label for="q33">33. After a few hours of socializing, do you typically feel energized or drained?</label>
+                    <input type="text" id="q33" name="q33">
+                </div>
+
+                <div class="question-group">
+                    <label for="q34">34. What does your ideal weekend look like in terms of social activity?</label>
+                    <textarea id="q34" name="q34"></textarea>
+                </div>
+
+                <div class="question-group">
+                    <label for="q35">35. What is the primary motivation for you to seek out social interaction? (e.g., fun, deep connection, professional networking, avoiding loneliness)</label>
+                    <textarea id="q35" name="q35"></textarea>
+                </div>
+
+                <div class="question-group">
+                    <label for="q36">36. Do you prefer social activities that are planned in advance or ones that are spontaneous?</label>
+                    <input type="text" id="q36" name="q36">
+                </div>
+
+                <div class="question-group">
+                    <label for="q37">37. On average, how much time do you need to yourself each week to feel recharged?</label>
+                    <input type="text" id="q37" name="q37">
+                </div>
+
+                <div class="question-group">
+                    <label for="q38">38. Describe what "social burnout" feels like to you.</label>
+                    <textarea id="q38" name="q38"></textarea>
+                </div>
+
+                <div class="question-group">
+                    <label for="q39">39. Are you more comfortable as a host or as a guest at a social event?</label>
+                    <input type="text" id="q39" name="q39">
+                </div>
+
+                <div class="question-group">
+                    <label for="q40">40. What kind of social interactions leave you feeling the most fulfilled?</label>
+                    <textarea id="q40" name="q40"></textarea>
+                </div>
+            </section>
+
+            <section class="section-B">
+                <h3>Section B: Emotional Awareness & Regulation</h3>
+                <div class="question-group">
+                    <label for="q41">41. How accurately can you identify your own emotions in a social context?</label>
+                    <input type="text" id="q41" name="q41">
+                </div>
+
+                <div class="question-group">
+                    <label for="q42">42. How easily do you perceive the emotional states of others?</label>
+                    <input type="text" id="q42" name="q42">
+                </div>
+
+                <div class="question-group">
+                    <label for="q43">43. When you feel socially anxious or awkward, what are your typical coping mechanisms?</label>
+                    <textarea id="q43" name="q43"></textarea>
+                </div>
+
+                <div class="question-group">
+                    <label for="q44">44. If you are in a bad mood, do you prefer to be around people or to be alone?</label>
+                    <input type="text" id="q44" name="q44">
+                </div>
+
+                <div class="question-group">
+                    <label for="q45">45. How susceptible are you to the moods of the people around you?</label>
+                    <input type="text" id="q45" name="q45">
+                </div>
+
+                <div class="question-group">
+                    <label for="q46">46. Which emotion do you find most challenging to express to others?</label>
+                    <input type="text" id="q46" name="q46">
+                </div>
+
+                <div class="question-group">
+                    <label for="q47">47. How do you self-soothe or recover after a negative social experience?</label>
+                    <textarea id="q47" name="q47"></textarea>
+                </div>
+
+                <div class="question-group">
+                    <p class="question-text">48. On a scale of 1-10, how well can you mask your true feelings when necessary?</p>
+                    <div class="scale-radio-group" data-question-id="q48">
+                        <label><input type="radio" name="q48" value="1"> <span>1</span></label>
+                        <label><input type="radio" name="q48" value="2"> <span>2</span></label>
+                        <label><input type="radio" name="q48" value="3"> <span>3</span></label>
+                        <label><input type="radio" name="q48" value="4"> <span>4</span></label>
+                        <label><input type="radio" name="q48" value="5"> <span>5</span></label>
+                        <label><input type="radio" name="q48" value="6"> <span>6</span></label>
+                        <label><input type="radio" name="q48" value="7"> <span>7</span></label>
+                        <label><input type="radio" name="q48" value="8"> <span>8</span></label>
+                        <label><input type="radio" name="q48" value="9"> <span>9</span></label>
+                        <label><input type="radio" name="q48" value="10"> <span>10</span></label>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section-C">
+                <h3>Section C: Core Beliefs About Socializing</h3>
+                <div class="question-group">
+                    <label for="q49">49. Do you believe that most people are inherently trustworthy?</label>
+                    <input type="text" id="q49" name="q49">
+                </div>
+
+                <div class="question-group">
+                    <label for="q50">50. What are your underlying beliefs about vulnerability in relationships?</label>
+                    <textarea id="q50" name="q50"></textarea>
+                </div>
+
+                <div class="question-group">
+                    <label for="q51">51. Do you feel you need to "perform" or wear a mask in most social settings?</label>
+                    <input type="text" id="q51" name="q51">
+                </div>
+
+                <div class="question-group">
+                    <label for="q52">52. How important is it to you that you are liked by everyone you meet?</label>
+                    <input type="text" id="q52" name="q52">
+                </div>
+
+                <div class="question-group">
+                    <label for="q53">53. What does a "successful social life" mean to you personally?</label>
+                    <textarea id="q53" name="q53"></textarea>
+                </div>
+
+                <div class="question-group">
+                    <label for="q54">54. Do you believe conflict is something to be avoided, or a necessary tool for growth in relationships?</label>
+                    <input type="text" id="q54" name="q54">
+                </div>
+
+                <div class="question-group">
+                    <label for="q55">55. What social "rules" or etiquette do you consider most important?</label>
+                    <textarea id="q55" name="q55"></textarea>
+                </div>
+
+                <div class="question-group">
+                    <label for="q56">56. Deep down, do you believe you are a person others want to be around?</label>
+                    <input type="text" id="q56" name="q56">
+                </div>
+            </section>
+
+            <!-- Part 3: Relationship Patterns & Dynamics -->
+            <h2>Part 3: Relationship Patterns & Dynamics</h2>
+            <p>This section is about the nature and management of your connections with others.</p>
+
+            <section class="section-A">
+                <h3>Section A: Friendship</h3>
+                <div class="question-group">
+                    <label for="q57">57. Would you describe your friendship circle as small and deep, or wide and varied?</label>
+                    <input type="text" id="q57" name="q57">
+                </div>
+
+                <div class="question-group">
+                    <label for="q58">58. In your friendships, do you tend to be the organizer, the listener, the entertainer, or another role?</label>
+                    <input type="text" id="q58" name="q58">
+                </div>
+
+                <div class="question-group">
+                    <label for="q59">59. How do you typically show your appreciation for your friends?</label>
+                    <textarea id="q59" name="q59"></textarea>
+                </div>
+
+                <div class="question-group">
+                    <label for="q60">60. What is a non-negotiable quality you look for in a close friend?</label>
+                    <textarea id="q60" name="q60"></textarea>
+                </div>
+
+                <div class="question-group">
+                    <label for="q61">61. How do you handle feelings of jealousy or envy within your friendships?</label>
+                    <textarea id="q61" name="q61"></textarea>
+                </div>
+
+                <div class="question-group">
+                    <label for="q62">62. What is a common reason that friendships in your past may have faded?</label>
+                    <textarea id="q62" name="q62"></textarea>
+                </div>
+
+                <div class="question-group">
+                    <label for="q63">63. Do you feel your friendships are generally reciprocal in terms of effort and support?</label>
+                    <input type="text" id="q63" name="q63">
+                </div>
+
+                <div class="question-group">
+                    <label for="q64">64. How often do you initiate contact versus waiting for friends to contact you?</label>
+                    <input type="text" id="q64" name="q64">
+                </div>
+            </section>
+
+            <section class="section-B">
+                <h3>Section B: Family & Professional Life</h3>
+                <div class="question-group">
+                    <label for="q65">65. How does your social behavior differ when you are with family compared to when you are with friends?</label>
+                    <textarea id="q65" name="q65"></textarea>
+                </div>
+
+                <div class="question-group">
+                    <label for="q66">66. In a professional environment, do you prioritize building personal rapport or focusing strictly on the task at hand?</label>
+                    <input type="text" id="q66" name="q66">
+                </div>
+
+                <div class="question-group">
+                    <label for="q67">67. Describe your comfort level with networking in a professional setting.</label>
+                    <textarea id="q67" name="q67"></textarea>
+                </div>
+
+                <div class="question-group">
+                    <label for="q68">68. How do you typically communicate with figures of authority?</label>
+                    <input type="text" id="q68" name="q68">
+                </div>
+
+                <div class="question-group">
+                    <label for="q69">69. What recurring social patterns or roles do you notice you play across different areas of your life (work, family, friends)?</label>
+                    <textarea id="q69" name="q69"></textarea>
+                </div>
+
+                <div class="question-group">
+                    <label for="q70">70. Which relationships in your life feel the most effortless? Why?</label>
+                    <textarea id="q70" name="q70"></textarea>
+                </div>
+
+                <div class="question-group">
+                    <label for="q71">71. Which relationships feel the most challenging to maintain? Why?</label>
+                    <textarea id="q71" name="q71"></textarea>
+                </div>
+
+                <div class="question-group">
+                    <label for="q72">72. How do your social needs and behaviors in a romantic partnership compare to those in your friendships?</label>
+                    <textarea id="q72" name="q72"></textarea>
+                </div>
+            </section>
+
+            <!-- Part 4: Communication Style -->
+            <h2>Part 4: Communication Style</h2>
+            <p>This section drills down into the specific mechanics of how you communicate.</p>
+
+            <section class="section-A">
+                <h3>Section A: Listening & Understanding</h3>
+                <div class="question-group">
+                    <label for="q73">73. When someone is speaking, how often do you find yourself thinking about your response instead of fully absorbing their words?</label>
+                    <input type="text" id="q73" name="q73">
+                </div>
+
+                <div class="question-group">
+                    <label for="q74">74. What physical cues do you use to show you are actively listening?</label>
+                    <textarea id="q74" name="q74"></textarea>
+                </div>
+
+                <div class="question-group">
+                    <label for="q75">75. Are you comfortable with silences in a conversation?</label>
+                    <input type="text" id="q75" name="q75">
+                </div>
+
+                <div class="question-group">
+                    <label for="q76">76. How frequently do you ask clarifying questions to ensure you've understood someone?</label>
+                    <input type="text" id="q76" name="q76">
+                </div>
+
+                <div class="question-group">
+                    <label for="q77">77. Have you ever been told that you are a good (or bad) listener?</label>
+                    <input type="text" id="q77" name="q77">
+                </div>
+
+                <div class="question-group">
+                    <label for="q78">78. How do you respond when you can tell someone is not listening to you?</label>
+                    <textarea id="q78" name="q78"></textarea>
+                </div>
+            </section>
+
+            <section class="section-B">
+                <h3>Section B: Self-Expression & Articulation</h3>
+                <div class="question-group">
+                    <p class="question-text">79. On a scale of 1-10, how well do your words typically match your internal thoughts and feelings?</p>
+                    <div class="scale-radio-group" data-question-id="q79">
+                        <label><input type="radio" name="q79" value="1"> <span>1</span></label>
+                        <label><input type="radio" name="q79" value="2"> <span>2</span></label>
+                        <label><input type="radio" name="q79" value="3"> <span>3</span></label>
+                        <label><input type="radio" name="q79" value="4"> <span>4</span></label>
+                        <label><input type="radio" name="q79" value="5"> <span>5</span></label>
+                        <label><input type="radio" name="q79" value="6"> <span>6</span></label>
+                        <label><input type="radio" name="q79" value="7"> <span>7</span></label>
+                        <label><input type="radio" name="q79" value="8"> <span>8</span></label>
+                        <label><input type="radio" name="q79" value="9"> <span>9</span></label>
+                        <label><input type="radio" name="q79" value="10"> <span>10</span></label>
+                    </div>
+                </div>
+
+                <div class="question-group">
+                    <label for="q80">80. Are you more of a direct or an indirect communicator? (e.g., Do you state your needs clearly or do you hint at them?)</label>
+                    <input type="text" id="q80" name="q80">
+                </div>
+
+                <div class="question-group">
+                    <label for="q81">81. Do you find it easier to express yourself through speaking or through writing?</label>
+                    <input type="text" id="q81" name="q81">
+                </div>
+
+                <div class="question-group">
+                    <label for="q82">82. How often do you use humor in your interactions, and what type of humor is it? (e.g., sarcastic, self-deprecating, witty)</label>
+                    <textarea id="q82" name="q82"></textarea>
+                </div>
+
+                <div class="question-group">
+                    <label for="q83">83. How do you handle giving a compliment?</label>
+                    <textarea id="q83" name="q83"></textarea>
+                </div>
+
+                <div class="question-group">
+                    <label for="q84">84. How do you handle receiving a compliment?</label>
+                    <textarea id="q84" name="q84"></textarea>
+                </div>
+
+                <div class="question-group">
+                    <label for="q85">85. Do you use "filler words" (like, um, you know) frequently?</label>
+                    <input type="text" id="q85" name="q85">
+                </div>
+
+                <div class="question-group">
+                    <label for="q86">86. What is one thing you wish you could communicate more effectively?</label>
+                    <textarea id="q86" name="q86"></textarea>
+                </div>
+            </section>
+
+            <div class="button-group">
+                <button type="button" id="saveProgress">Save Progress</button>
+                <button type="button" id="exportAnswers" class="export">Export to TXT</button>
+                <button type="button" id="clearAll" class="clear">Clear All Answers</button>
+            </div>
+            <p id="message" class="message"></p>
+        </form>
+    </div>
+
+    <script>
+        const form = document.getElementById('questionnaireForm');
+        const saveButton = document.getElementById('saveProgress');
+        const exportButton = document.getElementById('exportAnswers'); // New button
+        const clearButton = document.getElementById('clearAll');
+        const messageDisplay = document.getElementById('message');
+        const localStorageKey = 'socialSelfDiscoveryAnswers'; // Unique key for localStorage
+
+        // Function to save form data to localStorage [1, 3, 4]
+        function saveAnswers() {
+            const answers = {};
+            form.querySelectorAll('input[type="text"], textarea, input[type="number"]').forEach(input => {
+                answers[input.id] = input.value;
+            });
+
+            form.querySelectorAll('input[type="radio"]:checked').forEach(radio => {
+                answers[radio.name] = radio.value;
+            });
+
+            localStorage.setItem(localStorageKey, JSON.stringify(answers)); [1]
+            displayMessage('Progress saved!', 'success');
+        }
+
+        // Function to load form data from localStorage [1, 4, 10, 14, 15, 17]
+        function loadAnswers() {
+            const savedAnswers = localStorage.getItem(localStorageKey); [1]
+            if (savedAnswers) {
+                const answers = JSON.parse(savedAnswers); [15]
+                for (const id in answers) {
+                    const element = document.getElementById(id);
+                    if (element) {
+                        if (element.type === 'radio') {
+                            // Handle radio buttons: find all radios with the same name
+                            document.querySelectorAll(`input[name="${element.name}"]`).forEach(radio => {
+                                if (radio.value === answers[id]) {
+                                    radio.checked = true;
+                                }
+                            });
+                        } else {
+                            element.value = answers[id];
+                        }
+                    } else {
+                        // Special handling for radio groups where the ID might be on the parent div (using data-question-id)
+                        const radioGroupDiv = document.querySelector(`.scale-radio-group[data-question-id="${id}"]`);
+                        if (radioGroupDiv) {
+                            document.querySelectorAll(`input[name="${id}"]`).forEach(radio => {
+                                if (radio.value === answers[id]) {
+                                    radio.checked = true;
+                                }
+                            });
+                        }
+                    }
+                }
+                displayMessage('Previous progress loaded!', 'info');
+            }
+        }
+
+        // Function to clear all saved answers [24]
+        function clearAnswers() {
+            if (confirm('Are you sure you want to clear all your saved answers? This action cannot be undone.')) {
+                localStorage.removeItem(localStorageKey); [24]
+                form.reset(); // Resets all form fields
+                displayMessage('All answers cleared!', 'warning');
+            }
+        }
+
+        // Function to export answers to a text file [1, 4, 5, 6, 8]
+        function exportAnswersToTxt() {
+            let exportText = "The Social Self-Discovery Questionnaire - Your Responses\n\n";
+
+            // Add intro text
+            const introText = document.querySelector('.intro-text').textContent;
+            exportText += introText + "\n\n";
+
+            // Iterate through sections and questions
+            document.querySelectorAll('h2, h3, .question-group').forEach(element => {
+                if (element.tagName === 'H2') {
+                    exportText += "\n" + "=".repeat(50) + "\n";
+                    exportText += element.textContent.toUpperCase() + "\n";
+                    exportText += "=".repeat(50) + "\n\n";
+                } else if (element.tagName === 'H3') {
+                    exportText += "\n--- " + element.textContent + " ---\n\n";
+                } else if (element.classList.contains('question-group')) {
+                    let questionText = '';
+                    let answer = 'No answer provided.';
+                    const input = element.querySelector('input[type="text"], textarea, input[type="number"]');
+                    const radioGroup = element.querySelector('.scale-radio-group');
+
+                    if (input) {
+                        // For text, number, textarea inputs
+                        questionText = element.querySelector('label').textContent.trim(); [7, 12]
+                        answer = input.value.trim();
+                    } else if (radioGroup) {
+                        // For radio button groups (scale questions)
+                        questionText = element.querySelector('.question-text').textContent.trim();
+                        const checkedRadio = radioGroup.querySelector('input[type="radio"]:checked');
+                        if (checkedRadio) {
+                            answer = checkedRadio.value;
+                        }
+                    }
+
+                    if (questionText) {
+                        exportText += `Q: ${questionText}\nA: ${answer}\n\n`;
+                    }
+                }
+            });
+
+            const blob = new Blob([exportText], { type: 'text/plain;charset=utf-8' }); [1, 5, 6, 8]
+            const filename = 'Social_Self-Discovery_Questionnaire_Answers.txt';
+
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob); [1, 5, 6, 8]
+            a.download = filename; [1, 4, 5, 6, 8]
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(a.href); // Clean up the URL object [8]
+
+            displayMessage('Answers exported to TXT!', 'success');
+        }
+
+        // Event Listeners
+        saveButton.addEventListener('click', saveAnswers);
+        exportButton.addEventListener('click', exportAnswersToTxt); // New event listener
+        clearButton.addEventListener('click', clearAnswers);
+
+        // Load answers when the page first loads
+        window.addEventListener('load', loadAnswers);
+    </script>
+</body>
+</html>
